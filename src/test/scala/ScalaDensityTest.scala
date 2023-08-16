@@ -273,6 +273,9 @@ class DensityTests extends FlatSpec with Matchers with BeforeAndAfterAll {
     val max = 10.0
     val sample = (density.sample(rng, sampleSize))
 
+    val totProb = density.densityMap.vals.map(t => t._1 * t._2).reduce(_+_)
+    assert(-0.00000001 < 1.0 - totProb && 1.0 - totProb < 0.00000001)
+
     for (i <- 0 until sampleSize) {
       assert(density.density(Vectors.dense(sample(i).toArray)) > 0.0)
 

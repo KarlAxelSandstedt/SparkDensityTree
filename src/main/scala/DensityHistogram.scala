@@ -112,7 +112,7 @@ case class DensityHistogram(tree: SpatialTree, densityMap: LeafMap[(Double, Volu
   def sample(rng : UniformRandomProvider, sampleSize : Int): Array[Vector[Double]] = {
 
     /* Sample which leaf to sample point from */
-    val probabilities : Array[Double] = densityMap.vals.map(_._1).toArray
+   val probabilities : Array[Double] = densityMap.vals.map(t => t._1 * t._2).toArray
     var indexSampler : SharedStateDiscreteSampler = AliasMethodDiscreteSampler.of(rng, probabilities)
   
     val boxes = densityMap.truncation.leaves.map(tree.cellAt(_))
